@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class HiddingSpot : MonoBehaviour
 {
     public float hideRadius = 3.0f;
+    public bool isBurrow = false;
 
     Player player;
     bool occupied = false;
@@ -16,7 +17,6 @@ public class HiddingSpot : MonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<Player>();
-
     }
 
     private void Update()
@@ -28,7 +28,7 @@ public class HiddingSpot : MonoBehaviour
             player.EnterHiddingSpot(() =>
             {
                 occupied = false;
-            });
+            }, isBurrow);
         }
     }
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -27,6 +28,10 @@ public class Player : MonoBehaviour
     public int starveRate;
     public float currentLife;
 
+    [Header("Straw")]
+    public int strawCountNeeded = 10;
+    private int currentSrawCount = 0;
+
     [Header("Animation")]
     public float animationWalkSpeed = 1.5f;
     public float animationRunSpeed = 2.0f;
@@ -43,12 +48,8 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        currentLife -= starveRate * Time.deltaTime;
-        Debug.Log("current life : " + currentLife);
-        if (currentLife <= 0)
-        {
-            Debug.Log("Game Over");
-        }
+        HandleLife();
+        
 
         if (!isHidding)
         {
@@ -61,17 +62,42 @@ public class Player : MonoBehaviour
 
     }
 
+    public Image roundProgressionBar;
+    private void HandleLife()
+    {
+        currentLife -= starveRate * Time.deltaTime;
+        roundProgressionBar.fillAmount = currentLife / (float)life;
+        if (currentLife <= 0)
+        {
+            Debug.Log("Game Over");
+        }
+    }
+
     Action onLeaveHiddingSpot;
-    public void EnterHiddingSpot(Action callback)
+    public void EnterHiddingSpot(Action callback, bool isBurrow)
     {
         isHidding = true;
         animator.gameObject.SetActive(false);
         onLeaveHiddingSpot = callback;
+        if (isBurrow && carrot != null)
+        {
+            currentSrawCount++;
+            Debug.Log("current straw count : " + currentSrawCount);
+            Destroy(carrot.gameObject);
+            onSprint = null;
+
+            if (currentSrawCount == strawCountNeeded)
+            {
+                Debug.Log("Victory");
+            }
+        }
     }
 
     Action onSprint;
-    public void PickupCarrot(Action callback)
+    [HideInInspector] Straw carrot = null;
+    public void PickupStraw(Straw carrot, Action callback)
     {
+        this.carrot = carrot;
         onSprint = callback;
     }
 
@@ -99,6 +125,7 @@ public class Player : MonoBehaviour
                 sprintTimeLeft -= Time.deltaTime;
                 currentSpeed = sprintSpeed;
                 currentMaxSpeed = sprintMaxSpeed;
+                carrot = null;
                 onSprint?.Invoke();
                 animationCurrentSpeed = animationRunSpeed;
             }

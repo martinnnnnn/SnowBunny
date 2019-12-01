@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class Carrot : MonoBehaviour
+public class Straw : MonoBehaviour
 {
     public float pickupRadius = 3.0f;
 
@@ -30,7 +30,7 @@ public class Carrot : MonoBehaviour
             transform.localPosition = Vector3.zero;
             transform.localEulerAngles = Vector3.zero;
 
-            player.PickupCarrot(() =>
+            player.PickupStraw(this, () =>
             {
                 if (pickedUp)
                 {
