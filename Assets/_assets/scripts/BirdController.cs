@@ -117,7 +117,8 @@ public class BirdController : MonoBehaviour
                 break;
 
             case State.EATING:
-                Debug.Log("Game Over");
+                EndGameData.result = EndGameData.Result.DEFEAT;
+                SceneManager.LoadScene(3);
                 state = State.LEAVING_IN;
                 break;
 

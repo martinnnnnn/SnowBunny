@@ -6,29 +6,19 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StartGame : MonoBehaviour
+public class Credits : MonoBehaviour
 {
     
-    public Button startButton;
-    public Button creditsButton;
-
-
+    public Button backButton;
 
     private void Start()
     {
-        startButton.onClick.AddListener(() =>
+        backButton.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(0);
         });
 
-        SetupHoverTriggers(startButton);
-
-        creditsButton.onClick.AddListener(() =>
-        {
-            SceneManager.LoadScene(1);
-        });
-
-        SetupHoverTriggers(creditsButton);
+        SetupHoverTriggers(backButton);
     }
 
     void SetupHoverTriggers(Button button)

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -69,7 +70,8 @@ public class Player : MonoBehaviour
         roundProgressionBar.fillAmount = currentLife / (float)life;
         if (currentLife <= 0)
         {
-            Debug.Log("Game Over");
+            EndGameData.result = EndGameData.Result.DEFEAT;
+            SceneManager.LoadScene(3);
         }
     }
 
@@ -88,7 +90,8 @@ public class Player : MonoBehaviour
 
             if (currentSrawCount == strawCountNeeded)
             {
-                Debug.Log("Victory");
+                EndGameData.result = EndGameData.Result.VICTORY;
+                SceneManager.LoadScene(3);
             }
         }
     }
