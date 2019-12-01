@@ -27,6 +27,11 @@ public class Player : MonoBehaviour
     public int starveRate;
     public float currentLife;
 
+    [Header("Animation")]
+    public float animationWalkSpeed = 1.5f;
+    public float animationRunSpeed = 2.0f;
+    float animationCurrentSpeed;
+
     private void Start()
     {
         body = GetComponent<Rigidbody>();
@@ -80,9 +85,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    float animationWalkSpeed;
-    float animationRunSpeed = 1.5f;
-    float animationCurrentSpeed = 2.0f;
     private void HandleMovement()
     {
         float currentSpeed = walkSpeed;
@@ -125,15 +127,8 @@ public class Player : MonoBehaviour
             newVel.x += currentSpeed * Time.deltaTime;
         }
 
-
-        newVel.x = Mathf.Clamp(newVel.x, -currentMaxSpeed, currentMaxSpeed);
-        newVel.z = Mathf.Clamp(newVel.z, -currentMaxSpeed, currentMaxSpeed);
-
-        animator.SetFloat("speed", newVel.magnitude);
-        //if (newVel.magnitude > 0.1f)
-        //{
-        //    animator.speed = animationCurrentSpeed;
-        //}
+        animationCurrentSpeed = Mathf.Min(animationCurrentSpeed, newVel.magnitude);
+        animator.SetFloat("speed", animationCurrentSpeed);
 
         body.velocity = newVel;
 
