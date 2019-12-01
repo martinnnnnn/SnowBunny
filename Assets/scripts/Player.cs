@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
 
     [Header("Food")]
     public Transform mouth;
+    public int life;
+    public int starveRate;
+    public float currentLife;
 
     private void Start()
     {
@@ -30,10 +33,18 @@ public class Player : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         bird = FindObjectOfType<BirdController>();
         sprintTimeLeft = sprintMaxTime;
+        currentLife = life;
     }
 
     private void Update()
     {
+        currentLife -= starveRate * Time.deltaTime;
+        Debug.Log("current life : " + currentLife);
+        if (currentLife <= 0)
+        {
+            Debug.Log("Game Over");
+        }
+
         if (!isHidding)
         {
             HandleMovement();
@@ -130,5 +141,10 @@ public class Player : MonoBehaviour
         {
             transform.rotation = Quaternion.LookRotation(body.velocity, Vector3.up);
         }
+    }
+
+    public void Eat(Grass grass)
+    {
+        currentLife = Mathf.Min(currentLife + grass.foodValue, life);
     }
 }

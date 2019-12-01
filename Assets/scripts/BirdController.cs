@@ -55,14 +55,16 @@ public class BirdController : MonoBehaviour
         {
             case State.INACTIVE_IN:
                 currentRespawnTime = Time.time + random.Next(respawnDurationMin, respawnDurationMax);
-                birdRenderer.enabled = false;
+                transform.GetChild(0).gameObject.SetActive(false);
+                //birdRenderer.enabled = false;
                 state = State.INACTIVE;
                 break;
 
             case State.INACTIVE:
                 if (Time.time > currentRespawnTime)
                 {
-                    birdRenderer.enabled = true;
+                    transform.GetChild(0).gameObject.SetActive(true);
+                    //birdRenderer.enabled = true;
                     state = State.INACTIVE_OUT;
                 }
                 break;
@@ -117,7 +119,7 @@ public class BirdController : MonoBehaviour
                 break;
 
             case State.EATING:
-                Debug.Log("Game over");
+                Debug.Log("Game Over");
                 state = State.LEAVING_IN;
                 break;
 

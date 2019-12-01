@@ -107,7 +107,7 @@ Shader "Custom/EagleRender"
 					fixed4 col = tex2D(_MainTex, i.uv);
 					fixed4 eagle = tex2D(_EagleTex, i.uv);
 
-					if (eagle.r > 0.9f)
+					if (eagle.r > 0.1f)
 					{
 						if (col.r > 0.9f)
 						{
