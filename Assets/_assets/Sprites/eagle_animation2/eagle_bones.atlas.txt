@@ -1,0 +1,41 @@
+
+eagle_bones.png
+size: 1358,954
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+AileD_base
+  rotate: false
+  xy: 371, 2
+  size: 543, 358
+  orig: 546, 360
+  offset: 1, 1
+  index: -1
+AileD_bout
+  rotate: true
+  xy: 371, 362
+  size: 590, 401
+  orig: 592, 403
+  offset: 1, 1
+  index: -1
+AileG_base
+  rotate: true
+  xy: 916, 11
+  size: 477, 440
+  orig: 480, 443
+  offset: 2, 1
+  index: -1
+AileG_bout
+  rotate: true
+  xy: 774, 490
+  size: 462, 496
+  orig: 464, 498
+  offset: 1, 1
+  index: -1
+Corps
+  rotate: false
+  xy: 2, 252
+  size: 367, 700
+  orig: 369, 702
+  offset: 1, 1
+  index: -1
