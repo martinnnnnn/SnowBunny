@@ -169,6 +169,11 @@ public class Player : MonoBehaviour
         animationCurrentSpeed = Mathf.Min(animationCurrentSpeed, newVel.magnitude);
         animator.SetFloat("speed", animationCurrentSpeed);
 
+        if (animationCurrentSpeed > 0.1f)
+        {
+            bird.start = true;
+        }
+
         body.velocity = newVel;
 
         if (body.velocity.magnitude > 0.1f)

@@ -39,6 +39,7 @@ public class BirdController : MonoBehaviour
     State lastState = State.LEAVING_OUT;
     Vector3 leaveDirection = Vector3.zero;
     private Vector3 lastPosition;
+    [HideInInspector] public bool start = false;
 
     private void Start()
     {
@@ -66,7 +67,7 @@ public class BirdController : MonoBehaviour
                 break;
 
             case State.INACTIVE:
-                if (Time.time > currentRespawnTime)
+                if (Time.time > currentRespawnTime && start)
                 {
                     state = State.INACTIVE_OUT;
                 }
