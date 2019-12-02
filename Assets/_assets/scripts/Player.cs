@@ -103,7 +103,9 @@ public class Player : MonoBehaviour
     Action onLeaveHiddingSpot;
     public void EnterHiddingSpot(Action callback, bool isBurrow)
     {
-        isHidding = true;
+        StartCoroutine(SetHidding(true));
+        //isHidding = true;
+        Debug.Log("hi");
         animator.gameObject.SetActive(false);
         onLeaveHiddingSpot = callback;
         if (isBurrow && carrot != null)
@@ -120,6 +122,13 @@ public class Player : MonoBehaviour
             }
         }
     }
+    
+    IEnumerator SetHidding(bool value)
+    {
+        yield return null;
+        isHidding = value;
+
+    }
 
     Action onSprint;
     [HideInInspector] Straw carrot = null;
@@ -133,6 +142,7 @@ public class Player : MonoBehaviour
     {
         if (inputAdapter.GetInputDown(InputAdapter.InputKey.A))
         {
+            Debug.Log("oh");
             animator.gameObject.SetActive(true);
             isHidding = false;
             onLeaveHiddingSpot?.Invoke();

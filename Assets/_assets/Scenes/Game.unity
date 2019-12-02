@@ -23220,7 +23220,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hideRadius: 2.15
   isBurrow: 1
-  sign: {fileID: 768205983}
+  signXBOX: {fileID: 0}
+  signKB: {fileID: 0}
 --- !u!4 &966504269
 Transform:
   m_ObjectHideFlags: 0

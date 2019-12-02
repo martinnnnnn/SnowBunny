@@ -16,24 +16,29 @@ public class Straw : MonoBehaviour
     Transform originalParent;
 
     [Header("Sign")]
-    public GameObject sign;
+    public GameObject signXBOX;
+    public GameObject signKB;
+    private GameObject currentSign;
 
     private void Start()
     {
         player = FindObjectOfType<Player>();
         inputAdapter = FindObjectOfType<InputAdapter>();
         originalParent = transform.parent;
-        sign.SetActive(false);
+        signXBOX.SetActive(false);
+        signKB.SetActive(false);
     }
 
     private void Update()
     {
+        currentSign = inputAdapter.inputType == InputAdapter.InputType.CONTROLLER_XBOX ? signXBOX : signKB;
+
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
 
         if (distanceToPlayer < pickupRadius)
         {
-            sign.SetActive(true);
-            sign.transform.LookAt(Camera.main.transform);
+            currentSign.SetActive(true);
+            currentSign.transform.LookAt(Camera.main.transform);
 
             if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && !pickedUp)
             {
@@ -56,7 +61,7 @@ public class Straw : MonoBehaviour
         }
         else
         {
-            sign.SetActive(false);
+            currentSign.SetActive(false);
         }
 
 
