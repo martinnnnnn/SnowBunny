@@ -131,7 +131,7 @@ public class Player : MonoBehaviour
 
     private void HandleHidding()
     {
-        if (inputAdapter.GetInputDown(InputAdapter.InputKey.B))
+        if (inputAdapter.GetInputDown(InputAdapter.InputKey.A))
         {
             animator.gameObject.SetActive(true);
             isHidding = false;

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -34,12 +35,17 @@ public class HiddingSpot : MonoBehaviour
             sign.SetActive(true);
             sign.transform.LookAt(Camera.main.transform);
 
-            if (inputAdapter.GetInputDown(InputAdapter.InputKey.A))
+            if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && !occupied)
             {
                 occupied = true;
                 player.EnterHiddingSpot(() =>
                 {
-                    occupied = false;
+                    Sequence sec = DOTween.Sequence();
+                    sec.AppendInterval(0.1f)
+                       .OnComplete(() =>
+                       {
+                           occupied = false;
+                       });
                 }, isBurrow);
             }
         }
