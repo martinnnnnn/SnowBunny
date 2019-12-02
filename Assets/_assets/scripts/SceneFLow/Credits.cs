@@ -10,15 +10,26 @@ public class Credits : MonoBehaviour
 {
     
     public Button backButton;
+    InputAdapter inputAdapter;
 
     private void Start()
     {
+        inputAdapter = GetComponent<InputAdapter>();
+
         backButton.onClick.AddListener(() =>
         {
             SceneManager.LoadScene(0);
         });
 
         SetupHoverTriggers(backButton);
+    }
+
+    private void Update()
+    {
+        if (inputAdapter.GetInputDown(InputAdapter.InputKey.B))
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     void SetupHoverTriggers(Button button)

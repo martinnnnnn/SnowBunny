@@ -6,30 +6,43 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class EndGame : MonoBehaviour
+public class StartGame : MonoBehaviour
 {
     
-    public Button backButton;
-    public TMP_Text resultText;
+    public Button startButton;
+    public Button creditsButton;
+    InputAdapter inputAdapter;
+
 
     private void Start()
     {
-        switch (EndGameData.result)
-        {
-            case EndGameData.Result.VICTORY:
-                resultText.text = "You won!";
-                break;
-            case EndGameData.Result.DEFEAT:
-                resultText.text = "You lost :(";
-                break;
-        }
+        inputAdapter = GetComponent<InputAdapter>();
 
-        backButton.onClick.AddListener(() =>
+        startButton.onClick.AddListener(() =>
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(2);
         });
 
-        SetupHoverTriggers(backButton);
+        SetupHoverTriggers(startButton);
+
+        creditsButton.onClick.AddListener(() =>
+        {
+            SceneManager.LoadScene(1);
+        });
+
+        SetupHoverTriggers(creditsButton);
+    }
+
+    private void Update()
+    {
+        if (inputAdapter.GetInputDown(InputAdapter.InputKey.A))
+        {
+            SceneManager.LoadScene(2);
+        }
+        if (inputAdapter.GetInputDown(InputAdapter.InputKey.B))
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 
     void SetupHoverTriggers(Button button)

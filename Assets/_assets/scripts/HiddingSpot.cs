@@ -12,17 +12,19 @@ public class HiddingSpot : MonoBehaviour
     public bool isBurrow = false;
 
     Player player;
+    InputAdapter inputAdapter;
     bool occupied = false;
 
     private void Start()
     {
         player = FindObjectOfType<Player>();
+        inputAdapter = FindObjectOfType<InputAdapter>();
     }
 
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (Input.GetKeyDown(KeyCode.E) && distanceToPlayer < hideRadius)
+        if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && distanceToPlayer < hideRadius)
         {
             occupied = true;
             player.EnterHiddingSpot(() =>

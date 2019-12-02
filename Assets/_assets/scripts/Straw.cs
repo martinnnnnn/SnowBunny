@@ -11,19 +11,21 @@ public class Straw : MonoBehaviour
     public float pickupRadius = 3.0f;
 
     Player player;
+    InputAdapter inputAdapter;
     bool pickedUp = false;
     Transform originalParent;
 
     private void Start()
     {
         player = FindObjectOfType<Player>();
+        inputAdapter = FindObjectOfType<InputAdapter>();
         originalParent = transform.parent;
     }
 
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (Input.GetKeyDown(KeyCode.E) && distanceToPlayer < pickupRadius && !pickedUp)
+        if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && distanceToPlayer < pickupRadius && !pickedUp)
         {
             pickedUp = true;
             transform.SetParent(player.mouth);
