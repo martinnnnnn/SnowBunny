@@ -38,7 +38,7 @@ public class Grass : MonoBehaviour
         if (distanceToPlayer < pickupRadius)
         {
             currentSign.SetActive(true);
-            currentSign.transform.LookAt(Camera.main.transform);
+            currentSign.transform.LookAt(Camera.main.transform.position);
             if (inputAdapter.GetInputDown(InputAdapter.InputKey.A))
             {
                 player.Eat(this);
@@ -47,7 +47,8 @@ public class Grass : MonoBehaviour
         }
         else
         {
-            currentSign.SetActive(false);
+            signXBOX.SetActive(false);
+            signKB.SetActive(false);
         }
 
         if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && distanceToPlayer < pickupRadius)

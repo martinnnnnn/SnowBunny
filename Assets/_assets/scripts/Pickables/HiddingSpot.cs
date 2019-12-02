@@ -38,7 +38,7 @@ public class HiddingSpot : MonoBehaviour
         if (distanceToPlayer < hideRadius)
         {
             currentSign.SetActive(true);
-            currentSign.transform.LookAt(-Camera.main.transform.position);
+            currentSign.transform.LookAt(Camera.main.transform.position);
 
             if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && !occupied)
             {
@@ -57,7 +57,8 @@ public class HiddingSpot : MonoBehaviour
         }
         else
         {
-            currentSign.SetActive(false);
+            signXBOX.SetActive(false);
+            signKB.SetActive(false);
         }
     }
 
