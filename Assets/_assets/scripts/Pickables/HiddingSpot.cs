@@ -15,36 +15,39 @@ public class HiddingSpot : MonoBehaviour
     InputAdapter inputAdapter;
     bool occupied = false;
 
+    [Header("Sign")]
+    public GameObject sign;
+
     private void Start()
     {
         player = FindObjectOfType<Player>();
         inputAdapter = FindObjectOfType<InputAdapter>();
+        sign.SetActive(false);
     }
 
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && distanceToPlayer < hideRadius)
+
+        if (distanceToPlayer < hideRadius)
         {
-            occupied = true;
-            player.EnterHiddingSpot(() =>
+            sign.SetActive(true);
+            sign.transform.LookAt(Camera.main.transform);
+
+            if (inputAdapter.GetInputDown(InputAdapter.InputKey.A))
             {
-                occupied = false;
-            }, isBurrow);
+                occupied = true;
+                player.EnterHiddingSpot(() =>
+                {
+                    occupied = false;
+                }, isBurrow);
+            }
+        }
+        else
+        {
+            sign.SetActive(false);
         }
     }
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject == player.gameObject && !occupied)
-    //    {
-    //        occupied = true;
-    //        player.EnterHiddingSpot(() =>
-    //        {
-    //            occupied = false;
-    //        });
-    //    }
-    //}
 
     void OnDrawGizmosSelected()
     {

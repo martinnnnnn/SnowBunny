@@ -15,34 +15,51 @@ public class Straw : MonoBehaviour
     bool pickedUp = false;
     Transform originalParent;
 
+    [Header("Sign")]
+    public GameObject sign;
+
     private void Start()
     {
         player = FindObjectOfType<Player>();
         inputAdapter = FindObjectOfType<InputAdapter>();
         originalParent = transform.parent;
+        sign.SetActive(false);
     }
 
     private void Update()
     {
         float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-        if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && distanceToPlayer < pickupRadius && !pickedUp)
-        {
-            pickedUp = true;
-            transform.SetParent(player.mouth);
-            transform.localPosition = Vector3.zero;
-            transform.localEulerAngles = Vector3.zero;
 
-            player.PickupStraw(this, () =>
+        if (distanceToPlayer < pickupRadius)
+        {
+            sign.SetActive(true);
+            sign.transform.LookAt(Camera.main.transform);
+
+            if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && !pickedUp)
             {
-                if (pickedUp)
+                pickedUp = true;
+                transform.SetParent(player.mouth);
+                transform.localPosition = Vector3.zero;
+                transform.localEulerAngles = Vector3.zero;
+
+                player.PickupStraw(this, () =>
                 {
-                    pickedUp = false;
-                    transform.SetParent(originalParent);
-                    transform.localPosition = new Vector3(player.transform.position.x, 0.1f, player.transform.position.z);
-                    transform.localEulerAngles = Vector3.zero;
-                }
-            });
+                    if (pickedUp)
+                    {
+                        pickedUp = false;
+                        transform.SetParent(originalParent);
+                        transform.localPosition = new Vector3(player.transform.position.x, 0.1f, player.transform.position.z);
+                        transform.localEulerAngles = Vector3.zero;
+                    }
+                });
+            }
         }
+        else
+        {
+            sign.SetActive(false);
+        }
+
+
     }
 
     void OnDrawGizmosSelected()
