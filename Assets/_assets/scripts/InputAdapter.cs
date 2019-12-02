@@ -29,36 +29,50 @@ public class InputAdapter : MonoBehaviour
     {
         Vector3 retval = Vector3.zero;
 
-        switch (inputType)
-        {
-            case InputType.CONTROLLER_XBOX:
-                retval = GetVelocityXBox(previousVelocity, speed);
-                break;
-            case InputType.CONTROLLER_PS4:
-                break;
-            case InputType.KEYBOARD:
-                retval = GetVelocityKeyBoard(previousVelocity, speed);
-                break;
-        }
+        Vector3 retval1 = GetVelocityXBox(previousVelocity, speed);
+        Vector3 retval2 = GetVelocityKeyBoard(previousVelocity, speed);
+
+        retval = (retval1.magnitude > retval2.magnitude) ? retval1 : retval2;
 
         return retval;
     }
 
+    public Vector3 GetVelocityKeyBoard(Vector3 previousVelocity, float speed)
+    {
+        Vector3 velocity = previousVelocity;
+
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Z))
+        {
+            velocity.z += speed * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            velocity.z -= speed * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.Q))
+        {
+            velocity.x -= speed * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            velocity.x += speed * Time.deltaTime;
+        }
+
+        return velocity;
+    }
+
+    public Vector3 GetVelocityXBox(Vector3 previousVelocity, float speed)
+    {
+        float hMove = Input.GetAxis("Horizontal");
+        float vMove = Input.GetAxis("Vertical");
+
+        return previousVelocity + new Vector3(hMove * speed * Time.deltaTime, 0, vMove * speed * Time.deltaTime);
+    }
+
+
     public bool GetInputDown(InputKey key)
     {
-        bool result = false;
-        switch (inputType)
-        {
-            case InputType.CONTROLLER_XBOX:
-                result = GetInputDownXBox(key);
-                break;
-            case InputType.CONTROLLER_PS4:
-                break;
-            case InputType.KEYBOARD:
-                result = GetInputDownKeyBoard(key);
-                break;
-        }
-        return result;
+        return GetInputDownXBox(key) || GetInputDownKeyBoard(key);
     }
 
     private bool GetInputDownKeyBoard(InputKey key)
@@ -99,19 +113,7 @@ public class InputAdapter : MonoBehaviour
 
     public bool GetInput(InputKey key)
     {
-        bool result = false;
-        switch (inputType)
-        {
-            case InputType.CONTROLLER_XBOX:
-                result = GetInputXBox(key);
-                break;
-            case InputType.CONTROLLER_PS4:
-                break;
-            case InputType.KEYBOARD:
-                result = GetInputKeyBoard(key);
-                break;
-        }
-        return result;
+        return GetInputXBox(key) || GetInputKeyBoard(key);
     }
 
     private bool GetInputKeyBoard(InputKey key)
@@ -150,40 +152,10 @@ public class InputAdapter : MonoBehaviour
         return result;
     }
 
-    public Vector3 GetVelocityKeyBoard(Vector3 previousVelocity, float speed)
-    {
-        Vector3 velocity = previousVelocity;
-
-        if (Input.GetKey(KeyCode.Z))
-        {
-            velocity.z += speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            velocity.z -= speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            velocity.x -= speed * Time.deltaTime;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            velocity.x += speed * Time.deltaTime;
-        }
-
-        return velocity;
-    }
-
-    public Vector3 GetVelocityXBox(Vector3 previousVelocity, float speed)
-    {
-        float hMove = Input.GetAxis("Horizontal");
-        float vMove = Input.GetAxis("Vertical");
-
-        return previousVelocity + new Vector3(hMove * speed * Time.deltaTime, 0, vMove * speed * Time.deltaTime);
-    }
-
     private void Update()
     {
+        inputType = InputType.KEYBOARD;
+
         string[] names = Input.GetJoystickNames();
         for (int x = 0; x < names.Length; x++)
         {
@@ -194,10 +166,6 @@ public class InputAdapter : MonoBehaviour
             if (names[x].Length == 33)
             {
                 inputType = InputType.CONTROLLER_XBOX;
-            }
-            else
-            {
-                inputType = InputType.KEYBOARD;
             }
         }
     }

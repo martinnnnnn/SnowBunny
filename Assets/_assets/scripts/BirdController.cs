@@ -28,6 +28,11 @@ public class BirdController : MonoBehaviour
     public float waitTime;
     private float currentWaitTime;
 
+    [Header("Scaling")]
+    public float scaleMin;
+    public float scaleMax;
+    private Vector3 scaleOriginal;
+
     Player player;
     MeshRenderer birdRenderer;
     State state = State.INACTIVE_IN;
@@ -40,6 +45,7 @@ public class BirdController : MonoBehaviour
         player = FindObjectOfType<Player>();
         birdRenderer = GetComponent<MeshRenderer>();
         lastPosition = transform.position;
+        scaleOriginal = transform.localScale;
     }
 
     
@@ -178,6 +184,10 @@ public class BirdController : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transform.position - lastPosition, Vector3.up), 0.05f);
         }
         lastPosition = transform.position;
+
+        float distanceRatio = 1.0f - Vector3.Distance(transform.position, player.transform.position) / respawnDistance;
+        float newScaleValue = distanceRatio * (scaleMax - scaleMin) + scaleMin;
+        transform.localScale = new Vector3(newScaleValue, newScaleValue, newScaleValue);
     }
 
     System.Random random = new System.Random();
