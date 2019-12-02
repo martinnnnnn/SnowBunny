@@ -38,7 +38,7 @@ public class HiddingSpot : MonoBehaviour
         if (distanceToPlayer < hideRadius)
         {
             currentSign.SetActive(true);
-            currentSign.transform.LookAt(Camera.main.transform);
+            currentSign.transform.LookAt(-Camera.main.transform.position);
 
             if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && !occupied)
             {
