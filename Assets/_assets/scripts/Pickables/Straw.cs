@@ -37,7 +37,14 @@ public class Straw : MonoBehaviour
 
         if (distanceToPlayer < pickupRadius)
         {
-            currentSign.SetActive(true);
+            if (!pickedUp)
+            {
+                currentSign.SetActive(true);
+            }
+            else
+            {
+                currentSign.SetActive(false);
+            }
             currentSign.transform.LookAt(Camera.main.transform.position);
 
             if (inputAdapter.GetInputDown(InputAdapter.InputKey.A) && !pickedUp)
@@ -46,6 +53,7 @@ public class Straw : MonoBehaviour
                 transform.SetParent(player.mouth);
                 transform.localPosition = Vector3.zero;
                 transform.localEulerAngles = Vector3.zero;
+
 
                 player.PickupStraw(this, () =>
                 {
